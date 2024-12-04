@@ -1,0 +1,9 @@
+{
+  "name": "ai.sloyd.unityplugin",
+  "displayName": "Sloyd Unity Plugin",
+  "version": "1.0.0",
+  "documentationUrl": "https://www.sloyd.ai/documentation",
+  "dependencies": {
+    "com.unity.cloud.gltfast": "6.8.0"
+  }
+}
