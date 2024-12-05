@@ -117,6 +117,8 @@ namespace Sloyd.WebAPI
             CreateRequest createRequest = new CreateRequest()
             {
                 Prompt = prompt,
+                ClientId = UserSettings.ClientId,
+                ClientSecret = UserSettings.ClientSecret,
                 Token = UserSettings.Token,
                 AiPromptModifiers = modifier.ToString(),
                 ModelOutputType = "glb"
@@ -145,6 +147,8 @@ namespace Sloyd.WebAPI
             EditRequest editRequest = new EditRequest()
             {
                 Prompt = prompt,
+                ClientId = UserSettings.ClientId,
+                ClientSecret = UserSettings.ClientSecret,
                 Token = UserSettings.Token,
                 InteractionId = interactionId,
                 ModelOutputType = "glb"
@@ -205,6 +209,8 @@ namespace Sloyd.WebAPI
         [Serializable]
         private struct CreateRequest
         {
+            public string ClientId;
+            public string ClientSecret;
             public string Token;
             public string Prompt;
             public string AiPromptModifiers;
@@ -214,6 +220,8 @@ namespace Sloyd.WebAPI
         [Serializable]
         private struct EditRequest
         {
+            public string ClientId;
+            public string ClientSecret;
             public string Token;
             public string Prompt;
             public string InteractionId;
