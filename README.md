@@ -52,7 +52,7 @@ The **Sloyd AI Plugin for Unity** allows users to generate 3D objects from simpl
 ## Additional Information
 
 ### Read More
-Read more about this plugin and other Sloyd products at **[https://www.sloyd.ai/documentation]**
+Read more about this plugin and other Sloyd products at **https://www.sloyd.ai/documentation**
 
 ### Bug Reports  
 If you encounter any issues, please report them to **[dev@sloyd.ai](mailto:dev@sloyd.ai)**.  
