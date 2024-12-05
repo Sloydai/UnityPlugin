@@ -1,4 +1,4 @@
-**# Proprietary Software License with Activation Key Requirement  
+## Proprietary Software License with Activation Key Requirement  
 
 Copyright (c) 2024 Sloyd AS
 
