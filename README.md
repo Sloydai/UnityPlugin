@@ -59,14 +59,10 @@ The **Sloyd AI Plugin for Unity** allows users to generate 3D objects from simpl
 5. **Using Sloyd in Playmode**
    - You can also expose Sloyd's AI prompting and editing in playmode and have players of your game or applicaiton create with Sloyd. 
 ---  
+## Additional Information
 
-## Bug Reports  
-If you encounter any issues, please report them to **[dev@sloyd.ai](mailto:dev@sloyd.ai)**.  
-
---
-
-## Read More
+### Read More
 Read more about this plugin and other Sloyd products at **[https://www.sloyd.ai/documentation]**
 
-## Bug Reports  
+### Bug Reports  
 If you encounter any issues, please report them to **[dev@sloyd.ai](mailto:dev@sloyd.ai)**.  
