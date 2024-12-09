@@ -26,7 +26,7 @@ namespace Sloyd.WebAPI
         
         public string ModelName => _modelName;
 
-        public static async Task<SloydSceneObject> Create(string prompt, SloydClientAPI.PromptModifier modifier)
+        public static async Task<SloydSceneObject> Create(string prompt, SloydClientAPI.PromptModifier modifier = SloydClientAPI.PromptModifier.None)
         {
             SloydClientAPI.CreateResponse response = await SloydClientAPI.Create(prompt, modifier);
 
