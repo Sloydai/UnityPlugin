@@ -46,16 +46,20 @@ The **Sloyd AI Plugin for Unity** allows users to generate 3D objects from simpl
    - If the change is successful, the modified object will replace the old one in the scene.  
    - Both the new and old versions will be saved in the **Asset Folder** for reference.  
 
-5. **Using Sloyd in Playmode**
+5. **Runtime Usage**
    - You can also expose Sloyd's AI prompting and editing in playmode and have players of your game or applicaiton create with Sloyd.
-  
-### Runtime Usage
-Call `SloydSceneObject.Create()` to request creating a 3D model. The method has two parameters: required **string** `prompt` and optional **SloydClientAPI.PromptModifier** `modifier`. If you want to get an AI textured model, pass `SloydClientAPI.PromptModifier.Texturing`. For recognition coloring instructions in your prompt by AI, pass `SloydClientAPI.PromptModifier.ReColoring`. If you skip `modifier` argument or pass `SloydClientAPI.PromptModifier.None`, a 3D model will be painted with its default palette colors. Note the method is asynchronous. 
+   - Call `SloydSceneObject.Create()` to request creating a 3D model. The method has two parameters:
+    - required **string** `prompt`
+    - and optional **SloydClientAPI.PromptModifier** `modifier`:
+      - If you want to get an AI textured model, pass `SloydClientAPI.PromptModifier.Texturing`.
+      - For recognition coloring instructions in your prompt by AI, pass `SloydClientAPI.PromptModifier.ReColoring`.
+      - If you skip `modifier` argument or pass `SloydClientAPI.PromptModifier.None`, a 3D model will be painted with its default palette colors.
+   - Note the method is asynchronous. 
 ```csharp
 SloydSceneObject sceneObject = await SloydSceneObject.Create(textPrompt, SloydClientAPI.PromptModifier.Texturing);
 ```
-
-**SloydSceneObject** is a **MonoBehaviour** component attached to each spawned model. Call `SloydSceneObject.Edit()` to request editing a spawned 3D model with another prompt. Note the method is asynchronous.
+- **SloydSceneObject** is a **MonoBehaviour** component attached to each spawned model. Call `SloydSceneObject.Edit()` to request editing a spawned 3D model with another prompt.
+   - Note the method is asynchronous.
 ```csharp
 await sceneObject.Edit(textPrompt);
 ```
