@@ -107,6 +107,11 @@ namespace Sloyd.WebAPI
                 sceneObject.transform.position = AutoPlacementUtility.FindNearestFreeSpace(sceneObject.gameObject);
             }
 
+            if (SloydClientAPI.UserSettings.AutoGenerateMeshCollider)
+            {
+                sceneObject.GenerateMeshCollider();
+            }
+
             return sceneObject;
         }
         

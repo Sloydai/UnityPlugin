@@ -396,10 +396,6 @@ namespace Sloyd.WebAPI
             }
             else
             {
-                if (_userSettings.AutoGenerateMeshCollider)
-                {
-                    sceneObject.GenerateMeshCollider();
-                }
                 _creationStatusMessage = $"Model \"{sceneObject.ModelName}\" created";
             }
             
