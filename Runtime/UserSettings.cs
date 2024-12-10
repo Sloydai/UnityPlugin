@@ -13,6 +13,7 @@ namespace Sloyd.WebAPI
 
         public SloydClientAPI.PromptModifier DefaultPromptModifier = SloydClientAPI.PromptModifier.None;
         public bool AutoPlacement = true;
+        public bool AutoGenerateMeshCollider = false;
         public bool EnableLogging = true;
         public string CachePath = string.Empty;
         

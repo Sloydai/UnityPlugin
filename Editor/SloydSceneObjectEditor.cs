@@ -37,6 +37,12 @@ namespace Sloyd.WebAPI
             {
                 EditorGUILayout.HelpBox(_editingStatusMessage, MessageType.None);
             }
+            
+            EditorGUILayout.Space();
+            if (GUILayout.Button("Generate MeshCollider"))
+            {
+                _target.GenerateMeshCollider();
+            }
         }
         
         private async Task RequestEdit()

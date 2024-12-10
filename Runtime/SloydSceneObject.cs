@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using GLTFast;
@@ -25,6 +26,44 @@ namespace Sloyd.WebAPI
         }
         
         public string ModelName => _modelName;
+
+
+        public void GenerateMeshCollider()
+        {
+            MeshCollider meshCollider = GetComponent<MeshCollider>();
+
+            if (meshCollider == false)
+            {
+                meshCollider = gameObject.AddComponent<MeshCollider>();
+            }
+
+            meshCollider.sharedMesh = GetCombinedMesh();
+        }
+
+        private Mesh GetCombinedMesh()
+        {
+            MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+            List<CombineInstance> combineInstances = new List<CombineInstance>(meshFilters.Length);
+
+            foreach (MeshFilter meshFilter in meshFilters)
+            {
+                Mesh mesh = meshFilter.sharedMesh;
+                
+                if (mesh && mesh.vertexCount > 0)
+                {
+                    CombineInstance combineInstance = new CombineInstance();
+                    combineInstance.mesh = mesh;
+                    combineInstance.transform = transform.worldToLocalMatrix * meshFilter.transform.localToWorldMatrix;
+                    combineInstances.Add(combineInstance);
+                }
+            }
+            
+            Mesh combinedMesh = new Mesh();
+            combinedMesh.CombineMeshes(combineInstances.ToArray());
+            combinedMesh.RecalculateNormals();
+            combinedMesh.RecalculateBounds();
+            return combinedMesh;
+        }
 
         public static async Task<SloydSceneObject> Create(string prompt, SloydClientAPI.PromptModifier modifier = SloydClientAPI.PromptModifier.None)
         {

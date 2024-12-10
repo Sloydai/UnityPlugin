@@ -186,7 +186,15 @@ namespace Sloyd.WebAPI
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             if (DrawFoldout(ref _activationSectionFoldout, "Activation"))
             {
-                DrawCredentialsSection();
+                EditorGUI.BeginChangeCheck();
+                {
+                    DrawCredentialsSection();
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(_userSettings);
+                }
+                
                 DrawAuthenticationStatus();
                 EditorGUILayout.Space();
                 DrawHelpLinks();
@@ -209,10 +217,18 @@ namespace Sloyd.WebAPI
 
             if (DrawFoldout(ref _settingsSectionFoldout, "Asset Settings"))
             {
-                DrawFolderPathSection();
-                EditorGUILayout.Space();
-                DrawLoggingToggle();
-                DrawAutoPlacementToggle();
+                EditorGUI.BeginChangeCheck();
+                {
+                    DrawFolderPathSection();
+                    EditorGUILayout.Space();
+                    DrawLoggingToggle();
+                    DrawAutoPlacementToggle();
+                    DrawAutoGenerationMeshColliderToggle();
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(_userSettings);
+                }
             }
 
             EditorGUILayout.EndScrollView();
@@ -284,6 +300,11 @@ namespace Sloyd.WebAPI
         private void DrawAutoPlacementToggle()
         {
             _userSettings.AutoPlacement = EditorGUILayout.Toggle("Enable auto placement", _userSettings.AutoPlacement);
+        }
+        
+        private void DrawAutoGenerationMeshColliderToggle()
+        {
+            _userSettings.AutoGenerateMeshCollider = EditorGUILayout.Toggle("Generate MeshCollider", _userSettings.AutoGenerateMeshCollider);
         }
 
         private void DrawFolderPickerControl(ref string currentFolderPath)
@@ -375,6 +396,10 @@ namespace Sloyd.WebAPI
             }
             else
             {
+                if (_userSettings.AutoGenerateMeshCollider)
+                {
+                    sceneObject.GenerateMeshCollider();
+                }
                 _creationStatusMessage = $"Model \"{sceneObject.ModelName}\" created";
             }
             
