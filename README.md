@@ -47,7 +47,7 @@ The **Sloyd AI Plugin for Unity** allows users to generate 3D objects from simpl
    - Both the new and old versions will be saved in the **Asset Folder** for reference.  
 
 5. **Runtime Usage**
-   - You can also expose Sloyd's AI prompting and editing in playmode and have players of your game or applicaiton create with Sloyd.
+   - You can also expose Sloyd's AI prompting and editing in playmode and have players of your game or application create with Sloyd.
    - Call `SloydSceneObject.Create()` to request creating a 3D model. The method has two parameters:
     - required **string** `prompt`
     - and optional **SloydClientAPI.PromptModifier** `modifier`:
