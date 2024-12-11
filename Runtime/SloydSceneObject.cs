@@ -162,6 +162,11 @@ namespace Sloyd.WebAPI
                 model.transform.localRotation = Quaternion.identity;
 #endif
             }
+            
+            if (GetComponent<MeshCollider>())
+            {
+                GenerateMeshCollider();
+            }
 
             return response.ResponseMessage;
         }
