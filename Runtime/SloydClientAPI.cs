@@ -69,9 +69,10 @@ namespace Sloyd.WebAPI
             return response;
         }
 
-        public static async Task Authenticate()
+        public static async Task Authenticate(bool forceAuth = false)
         {
-            if (AuthenticationStatus is AuthStatus.Authenticated or AuthStatus.TryingToAuthenticate)
+            if (AuthenticationStatus is AuthStatus.TryingToAuthenticate ||
+                (AuthenticationStatus is AuthStatus.Authenticated && forceAuth == false))
             {
                 return;
             }

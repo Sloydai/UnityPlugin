@@ -37,6 +37,8 @@ namespace Sloyd.WebAPI
         private GUIStyle _foldoutStyle;
         private GUIStyle _promptTipStyle;
         private GUIStyle _webLinkStyle;
+        private GUIStyle _chooseFolderButtonStyle;
+        private GUIStyle _reAuthenticateButtonStyle;
         private string _promptTip;
         private string _generateKeyText;
         private string _trackUsageText;
@@ -50,8 +52,11 @@ namespace Sloyd.WebAPI
         private static Texture2D _greenStatusIcon;
         private static Texture2D _yellowStatusIcon;
         private static Texture2D _redStatusIcon;
+        private static Texture2D _refreshIcon;
         private GUIStyle _statusIconStyle;
         private Vector2 _scrollPosition;
+        private GUILayoutOption _unitWidth;
+        private GUILayoutOption _unitHeight;
 
 
         [MenuItem("Tools/Sloyd Plugin", false, -100)]
@@ -67,6 +72,7 @@ namespace Sloyd.WebAPI
             InitializeUserSettings();
             InitializeIcons();
             InitializeTextBlocks();
+            TryToAuthenticate();
         }
 
         private void InitializeTextBlocks()
@@ -102,10 +108,18 @@ namespace Sloyd.WebAPI
             {
                 _yellowStatusIcon = EditorGUIUtility.IconContent("orangeLight").image as Texture2D;
             }
+            
+            if (_refreshIcon == null)
+            {
+                _refreshIcon = EditorGUIUtility.IconContent("Refresh").image as Texture2D;
+            }
         }
 
         private void InitializeStyles()
         {
+            _unitWidth = GUILayout.Width(EditorGUIUtility.singleLineHeight);
+            _unitHeight = GUILayout.Width(EditorGUIUtility.singleLineHeight);
+            
             if (_foldoutStyle == null)
             {
                 _foldoutStyle = new GUIStyle(EditorStyles.foldout)
@@ -139,6 +153,26 @@ namespace Sloyd.WebAPI
                 {
                     fontStyle = FontStyle.Italic,
                     richText = true
+                };
+            }
+
+            if (_chooseFolderButtonStyle == null)
+            {
+                _chooseFolderButtonStyle = new GUIStyle(GUI.skin.button)
+                {
+                    padding = new RectOffset(1, 2, 2, 2),
+                    fixedWidth = EditorGUIUtility.singleLineHeight,
+                    fixedHeight = EditorGUIUtility.singleLineHeight
+                };
+            }
+
+            if (_reAuthenticateButtonStyle == null)
+            {
+                _reAuthenticateButtonStyle = new GUIStyle(GUI.skin.button)
+                {
+                    padding = new RectOffset(3, 3, 3, 3),
+                    fixedWidth = EditorGUIUtility.singleLineHeight,
+                    fixedHeight = EditorGUIUtility.singleLineHeight
                 };
             }
         }
@@ -260,15 +294,44 @@ namespace Sloyd.WebAPI
             }
 
             GUILayout.Label(_authenticationStatusLabels[SloydClientAPI.AuthenticationStatus]);
+
+            if (string.IsNullOrEmpty(_userSettings.ClientId) || string.IsNullOrEmpty(_userSettings.ClientSecret))
+            {
+                GUI.enabled = false;
+            }
+            bool reAuthenticate = GUILayout.Button(_refreshIcon, _reAuthenticateButtonStyle, _unitWidth, _unitHeight);
+            GUI.enabled = true;
+            
+            if (reAuthenticate)
+            {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Authenticate(forceAuth: true);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
+
             GUILayout.EndHorizontal();
         }
 
         private void DrawCredentialsSection()
         {
             EditorGUILayout.Space();
+            EditorGUI.BeginChangeCheck();
             _userSettings.ClientId = EditorGUILayout.TextField("Client ID", _userSettings.ClientId);
             _userSettings.ClientSecret = EditorGUILayout.TextField("Client Secret", _userSettings.ClientSecret);
+            bool isChanged = EditorGUI.EndChangeCheck();
+            
+            if (isChanged && SloydClientAPI.AuthenticationStatus is SloydClientAPI.AuthStatus.NotAuthenticated &&
+                string.IsNullOrEmpty(_userSettings.ClientId) == false &&
+                string.IsNullOrEmpty(_userSettings.ClientSecret) == false)
+            {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Authenticate();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
+        }
 
+        private void TryToAuthenticate()
+        {
             if (SloydClientAPI.AuthenticationStatus is SloydClientAPI.AuthStatus.NotAuthenticated &&
                 string.IsNullOrEmpty(_userSettings.ClientId) == false &&
                 string.IsNullOrEmpty(_userSettings.ClientSecret) == false)
@@ -276,13 +339,12 @@ namespace Sloyd.WebAPI
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 Authenticate();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
             }
         }
 
-        private async Task Authenticate()
+        private async Task Authenticate(bool forceAuth = false)
         {
-            await SloydClientAPI.Authenticate();
+            await SloydClientAPI.Authenticate(forceAuth);
             Repaint();
         }
 
@@ -311,14 +373,7 @@ namespace Sloyd.WebAPI
         {
             EditorGUILayout.BeginHorizontal();
 
-            if (GUILayout.Button(_folderIcon, new GUIStyle(GUI.skin.button)
-                    {
-                        padding = new RectOffset(1, 2, 2, 2),
-
-                        fixedWidth = EditorGUIUtility.singleLineHeight,
-                        fixedHeight = EditorGUIUtility.singleLineHeight
-                    }, GUILayout.Width(EditorGUIUtility.singleLineHeight),
-                    GUILayout.Height(EditorGUIUtility.singleLineHeight)))
+            if (GUILayout.Button(_folderIcon, _chooseFolderButtonStyle, _unitWidth, _unitHeight))
             {
                 string selectedPath = EditorUtility.OpenFolderPanel("Select Folder",
                     Path.Combine(Application.dataPath, currentFolderPath), "");
