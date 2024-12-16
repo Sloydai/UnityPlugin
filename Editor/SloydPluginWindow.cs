@@ -44,7 +44,7 @@ namespace Sloyd.WebAPI
 
         private const string GenerateKeyLink = "app.sloyd.ai";
         private const string TrackUsageLink = "app.sloyd.ai";
-        private const string DocsLink = "www.sloyd.ai/documentation";
+        private const string DocsLink = "sloyd.gitbook.io/documentation/products/unity-plugin";
         
         private static Texture2D _folderIcon;
         private static Texture2D _greenStatusIcon;
