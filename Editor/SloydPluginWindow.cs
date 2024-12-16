@@ -327,6 +327,9 @@ namespace Sloyd.WebAPI
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 Authenticate();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+                EditorUtility.SetDirty(_userSettings);
+                AssetDatabase.SaveAssetIfDirty(_userSettings);
             }
         }
 
