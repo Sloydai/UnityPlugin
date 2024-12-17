@@ -2,7 +2,7 @@
   "name": "ai.sloyd.unityplugin",
   "displayName": "Sloyd Unity Plugin",
   "version": "1.0.0",
-  "documentationUrl": "https://www.sloyd.ai/documentation",
+  "documentationUrl": "https://sloyd.gitbook.io/documentation/products/unity-plugin",
   "author": {
     "name" : "Sloyd",
     "email" : "hello@sloyd.ai",
