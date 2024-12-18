@@ -30,7 +30,7 @@ The **Sloyd AI Plugin for Unity** allows users to generate 3D objects from simpl
 
 ## How to Use  
 1. **Open the Sloyd Plugin**:  
-   - In Unity, navigate to **Tools** and select **Sloyd Plugin**.  
+   - In Unity, navigate to **Window** and select **Sloyd Plugin**.  
 
 2. **Enter Your Credentials**:  
    - Paste the **Client ID** and **Client Secret** obtained from the Sloyd web app.  
