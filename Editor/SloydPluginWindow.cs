@@ -59,7 +59,7 @@ namespace Sloyd.WebAPI
         private GUILayoutOption _unitHeight;
 
 
-        [MenuItem("Tools/Sloyd Plugin", false, -100)]
+        [MenuItem("Window/Sloyd Plugin")]
         static void Initialize()
         {
             SloydPluginWindow window =
