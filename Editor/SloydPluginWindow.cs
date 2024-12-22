@@ -27,6 +27,12 @@ namespace Sloyd.WebAPI
             { SloydClientAPI.AuthStatus.TryingToAuthenticate, "Trying To Authenticate..." }
         };
 
+        private readonly string[] _includeShaders = new[]
+        {
+            "glTF/PbrMetallicRoughness",
+            "glTF/PbrSpecularGlossiness"
+        };
+
         private UserSettings _userSettings;
         private string _promptText;
         private string _creationStatusMessage;
@@ -477,6 +483,15 @@ namespace Sloyd.WebAPI
                     AssetDatabase.SaveAssets();
                     _userSettings = (UserSettings)AssetDatabase.LoadAssetAtPath(path, typeof(UserSettings));
                 }
+            }
+
+            if (_userSettings.IncludeShaders == null || _userSettings.IncludeShaders.Length == 0)
+            {
+                _userSettings.IncludeShaders =
+                    _includeShaders.Select(Shader.Find).Where(shader => shader != null).ToArray();
+                
+                EditorUtility.SetDirty(_userSettings);
+                AssetDatabase.SaveAssetIfDirty(_userSettings);
             }
         }
 

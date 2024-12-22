@@ -19,5 +19,8 @@ namespace Sloyd.WebAPI
         
         [NonSerialized]
         public string Token = string.Empty;
+
+        [HideInInspector]
+        public Shader[] IncludeShaders;
     }
 }
