@@ -76,12 +76,14 @@ namespace Sloyd.WebAPI
 
             SloydSceneObject sceneObject;
             
+#if UNITY_EDITOR
             if (Application.isPlaying)
             {
+#endif
                 sceneObject = new GameObject(nameof(SloydSceneObject)).AddComponent<SloydSceneObject>();
                 await sceneObject.SpawnGlbModel(Convert.FromBase64String(response.ModelData), sceneObject.transform);
-            }
 #if UNITY_EDITOR
+            }
             else
             {
                 string filePath = GetModelPath(response.Name);
@@ -160,8 +162,8 @@ namespace Sloyd.WebAPI
                 model.transform.SetParent(transform);
                 model.transform.localPosition = Vector3.zero;
                 model.transform.localRotation = Quaternion.identity;
-#endif
             }
+#endif
             
             if (GetComponent<MeshCollider>())
             {
